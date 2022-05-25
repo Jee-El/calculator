@@ -1,4 +1,14 @@
-const keys = document.querySelectorAll('.keys > div');
+const keys = document.querySelectorAll('.keys > button');
+const calculationDisplay = document.querySelector(`.calculation-display`);
+
+keys.forEach((key) => {
+    if (key.classList.item(1) === `AC` || key.classList.item(1) === `=`) {
+        return;
+    }
+    key.addEventListener(`click`, (e) => {
+        calculationDisplay.textContent += `${e.target.classList.item(1)}`;
+    });
+})
 
 function add(a, b) {
     return a + b;
@@ -20,6 +30,10 @@ function getPercentage(a, b) {
     return multiply((parseInt(a)/100), b);
 }
 
+function getSquareRoot(a) {
+    return Math.sqrt(a);
+}
+
 function operate(a, operator, b) {
     switch (operator) {
         case `+`:
@@ -37,5 +51,7 @@ function operate(a, operator, b) {
         case `%`:
             getPercentage(a,b);
             break;
+        case `√`:
+            getSquareRoot(a);
     }
 }
