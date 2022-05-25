@@ -15,7 +15,7 @@ html,
 body {
 	align-items: center;
 	display: flex;
-	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-family: Poppins, Arial, Helvetica, sans-serif;
 	justify-content: center;
 }
 
@@ -25,48 +25,52 @@ body {
 	display: flex;
 	flex-flow: column wrap;
 	height: 100vh;
-	justify-content: flex-end;
+	justify-content: center;
 	width: 100vw;
 }
-
+.sub-container {
+	border: 2px solid rgba(84, 123, 214, 0.7);
+}
 .calculation {
 	flex-grow: 1;
 	max-height: 200px;
 	max-width: 400px;
 	width: 100%;
+	height: 180px;
 }
-.buttons {
+.keys {
 	align-items: center;
-	background-color: transparent;
-	border-top: 2px solid #f34e5f;
+	border-top: 2px solid rgba(84, 123, 214, 0.7);
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
-	max-height: 70vh;
-	max-width: 800px;
+	max-width: 360px;
+	max-height: 650px;
 }
-.buttons > div {
+.keys > div {
 	align-items: center;
 	background-color: #000100;
-	border: 1px solid rgba(234, 234, 234, 0.1);
+	border: 1px solid rgba(84, 123, 214, 0.2);
 	display: flex;
-	font-size: 1.25rem;
-	height: calc(100vw / 4);
+	font-size: 1.3rem;
+	font-weight: 400;
+	height: 90px;
 	justify-content: center;
-	max-width: 200px;
-	max-height: 200px;
 	text-align: center;
-	width: calc(100vw / 4);
+	width: 90px;
+}
+.keys > div > i {
+	font-weight: 300;
 }
 .numpad {
 	color: #f34e5f;
-	font-weight: 400;
 }
 .operators {
 	color: #46dbb4;
-	font-weight: 300;
 }
 .operators.division {
-	font-size: 1.75rem;
-	font-weight: 400;
+	font-size: 1.7rem;
+}
+.operators.sqrt {
+	font-weight: 600;
 }
