@@ -4,6 +4,10 @@
 	padding: 0;
 }
 
+button {
+    all: unset;
+}
+
 /*
     #000100 black
     #46DBB4 green
@@ -31,12 +35,19 @@ body {
 .sub-container {
 	border: 2px solid rgba(84, 123, 214, 0.7);
 }
-.calculation {
+.calculation-display {
 	flex-grow: 1;
 	max-height: 200px;
-	max-width: 400px;
+	max-width: 370px;
 	width: 100%;
 	height: 180px;
+    color: #fff;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 1.5rem;
+    font-size: 1.7rem;
+    overflow-x: hidden;
 }
 .keys {
 	align-items: center;
@@ -44,10 +55,10 @@ body {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
-	max-width: 360px;
-	max-height: 650px;
+	max-width: 370px;
+	max-height: 660px;
 }
-.keys > div {
+.keys > button {
 	align-items: center;
 	background-color: #000100;
 	border: 1px solid rgba(84, 123, 214, 0.2);
@@ -59,7 +70,7 @@ body {
 	text-align: center;
 	width: 90px;
 }
-.keys > div > i {
+.keys > button > i {
 	font-weight: 300;
 }
 .numpad {
