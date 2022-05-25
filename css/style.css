@@ -1,67 +1,72 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 /*
-    #08D9D6 blue
-    #252A34 black
-    #FF2E63 red
-    #EAEAEA white
+    #000100 black
+    #46DBB4 green
+    #F34E5F red
+    #547BD6 blue
 */
 
 html,
 body {
-    font-family: Roboto, Arial, Helvetica, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	align-items: center;
+	display: flex;
+	font-family: Roboto, Arial, Helvetica, sans-serif;
+	justify-content: center;
 }
 
 .main-container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    flex-flow: column wrap;
-    min-width: 100vw;
-    min-height: 100vh;
-    background-color: #252A34;
+	align-items: center;
+	background-color: #000100;
+	display: flex;
+	flex-flow: column wrap;
+	height: 100vh;
+	justify-content: flex-end;
+	width: 100vw;
 }
 
 .calculation {
-    width: 100%;
-    max-height: 30vh;
-    flex-grow: 1;
+	flex-grow: 1;
+	max-height: 200px;
+	max-width: 400px;
+	width: 100%;
 }
 .buttons {
-    border-top: 2px solid rgba(255, 46, 99);
-    background-color: transparent;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-items: center;
-    max-height: 70vh;
-    max-width: 400px;
+	align-items: center;
+	background-color: transparent;
+	border-top: 2px solid #f34e5f;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	max-height: 70vh;
+	max-width: 800px;
 }
 .buttons > div {
-    background-color: #252A34;
-    border: 1px solid rgba(234, 234, 234, 0.1);
-    width: calc(100vw / 4);
-    height: calc(100vw / 4);
-    max-width: 100px;
-    max-height: 100px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.25rem;
-    font-weight: 400;
+	align-items: center;
+	background-color: #000100;
+	border: 1px solid rgba(234, 234, 234, 0.1);
+	display: flex;
+	font-size: 1.25rem;
+	height: calc(100vw / 4);
+	justify-content: center;
+	max-width: 200px;
+	max-height: 200px;
+	text-align: center;
+	width: calc(100vw / 4);
 }
-
 .numpad {
-    color: #FF2E63;
+	color: #f34e5f;
+	font-weight: 400;
 }
 .operators {
-    color: #08D9D6;
+	color: #46dbb4;
+	font-weight: 300;
+}
+.operators.division {
+	font-size: 1.75rem;
+	font-weight: 400;
 }
