@@ -4,56 +4,65 @@ const equalBtn = operators[operators.length - 1];
 const numpad = document.querySelectorAll(`.numpad`);
 const calcDisplay = document.querySelector(`.calc-display`);
 
+// Make x, +, = more noticeable
+operators[3].style.fontSize = `1.5rem`;
+operators[5].style.fontSize = `1.5rem`;
+equalBtn.style.fontSize = `1.8rem`;
+
 // AC key
 clearBtn.addEventListener(`click`, () => {
 	calcDisplay.textContent = ``;
+	calcDisplay.classList.remove(`test`);
+	para = [];
+	op = [];
 });
 
 let nums = [];
 // Show user input
 numpad.forEach((num) => {
 	num.addEventListener(`click`, (e) => {
-        if (calcDisplay.classList.contains(`test`)) {
-            calcDisplay.textContent = ``;
-            calcDisplay.classList.remove(`test`);
-        }
+		if (calcDisplay.classList.contains(`result-is-displayed`)) {
+			calcDisplay.textContent = ``;
+			calcDisplay.classList.remove(`result-is-displayed`);
+		}
 		calcDisplay.textContent += e.target.textContent;
 	});
 });
 
+let para = [];
+let op = [];
+
 // Calculate user input
-let parameters = [];
-let pressedOperators = [];
 operators.forEach((operator) => {
 	operator.addEventListener(`click`, (e) => {
-		pressedOperators.push(e.target.textContent);
-		parameters.push(+calcDisplay.textContent);
+		if (calcDisplay.textContent.trim() === ``) {
+			para.push(0);
+		} else {
+			para.push(+calcDisplay.textContent);
+		}
+		op.push(e.currentTarget.textContent);
 		calcDisplay.textContent = ``;
-		if (operator.textContent === `√`) {
-            calcDisplay.classList.add(`test`);
-			let result = getSquareRoot(...parameters);
-            calcDisplay.textContent = Math.round(result * 10 ** 7) / 10 ** 7;
-            parameters = [];
-		    pressedOperators = [];
-            return;
+
+		if (e.currentTarget.textContent === `√`) {
+			calcDisplay.classList.add(`test`);
+			let result = getSquareRoot(para[0]);
+			calcDisplay.textContent = Math.round(result * 10 ** 7) / 10 ** 7;
+			para = [];
+			op = [];
+			return;
 		}
-		if (parameters.length === 1) return;
-        if (e.target.textContent === `=` && pressedOperators[0] !== `√`) {
-            calcDisplay.classList.add(`test`);
-			let result = operate(
-				...parameters,
-				pressedOperators[0]
-			);
-            calcDisplay.textContent = Math.round(result * (10 ** 7)) / 10 ** 7;
-            parameters = [];
-		    pressedOperators = [];
-            return;
+
+		if (para.length === 1) return;
+		if (op[0] === `=`) return op.shift();
+		if (op[1] !== `=`) {
+			op.shift();
+			op.push(`=`);
 		}
-        calcDisplay.classList.add(`test`);
-        let result = operate(...parameters, pressedOperators[0])
-		calcDisplay.textContent = Math.round(result * 10 ** 7) / 10 ** 7;
-		parameters = [];
-		pressedOperators = [];
+		let result = operate(para[para.length - 2], para[para.length - 1], op[0]);
+		para.splice(0, 2, result);
+		op.shift();
+		calcDisplay.classList.add(`result-is-displayed`);
+		return (calcDisplay.textContent = Math.round(result * 10 ** 7) / 10 ** 7);
 	});
 });
 
@@ -89,10 +98,10 @@ function checkForValidInput(a, b) {
 		a.toString().split('').length > 12 ||
 		b.toString().split('').length > 12
 	) {
-		return (result.textContent = `Enter 12 digits or less.`);
+		return `Enter 12 digits or less.`;
 	}
 	if (a === 0 && b === 0) {
-		return (result.textContent = `One integer has to be non-null`);
+		return `One integer has to be non-null`;
 	}
 }
 function findGCD(a, b) {
@@ -121,7 +130,7 @@ function operate(a, b, operator) {
 			return getPercentage(a, b);
 		case `√`:
 			return getSquareRoot(a);
-        case `GCD`:
-            return findGCD(a,b);
+		case `GCD`:
+			return findGCD(a, b);
 	}
 }
