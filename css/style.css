@@ -33,20 +33,24 @@ body {
 	width: 100vw;
 }
 .sub-container {
-	border: 2px solid rgba(84, 123, 214, 0.7);
+	align-items: center;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: flex-end;
+	height: 100vh;
+	width: 100vw;
 }
 
 .top {
 	align-items: flex-end;
 	color: #fff;
 	display: flex;
-	height: 120px;
+	flex: 0 1 auto;
 	justify-content: flex-end;
 	font-size: 1.7rem;
-	max-width: 320px;
 	overflow-x: hidden;
 	padding: 1.5rem;
-	width: 100%;
+	width: 100vw;
 }
 .top > div {
 	display: flex;
@@ -69,21 +73,27 @@ body {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: center;
-	max-height: 560px;
-	max-width: 320px;
 }
 .keys > button {
 	align-items: center;
 	background-color: #000100;
 	display: flex;
-	font-size: 1.3rem;
+	font-size: 5vw;
 	font-weight: 400;
-	height: 80px;
+	height: 25vw;
 	justify-content: center;
 	outline: 1px solid rgba(84, 123, 214, 0.35);
 	text-align: center;
-	width: 80px;
+	width: calc(25vw - 1px);
 }
+.keys > button:nth-child(8),
+.keys > button:nth-child(16) {
+	font-size: 6vw;
+}
+.keys > button:last-child {
+	font-size: 7vw;
+}
+
 .keys > button > i {
 	font-weight: 300;
 }
@@ -98,4 +108,36 @@ body {
 }
 .operators.sqrt {
 	font-weight: 600;
+}
+
+@media (min-width: 700px) {
+	.sub-container {
+		border: 2px solid rgba(84, 123, 214, 0.7);
+		justify-content: center;
+		height: unset;
+		width: unset;
+	}
+
+	.top {
+		height: 120px;
+		max-width: 320px;
+		width: 100%;
+	}
+
+	.keys {
+		max-height: 560px;
+		max-width: 320px;
+	}
+	.keys > button {
+		font-size: 1.3rem;
+		height: 80px;
+		width: 80px;
+	}
+	.keys > button:nth-child(8),
+	.keys > button:nth-child(16) {
+		font-size: 1.5rem;
+	}
+	.keys > button:last-child {
+		font-size: 1.8rem;
+	}
 }

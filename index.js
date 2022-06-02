@@ -2,13 +2,7 @@ const display = document.querySelector(`.display`);
 const numpad = document.querySelectorAll(`.numpad`);
 const operators = document.querySelectorAll('.operators:not(:first-child)');
 const clearBtn = document.querySelector(`.operators:first-child`);
-const equalBtn = operators[operators.length - 1];
 const deleteBtn = document.querySelector(`.delete`);
-
-// Make x, +, = more noticeable
-operators[3].style.fontSize = `1.5rem`;
-operators[5].style.fontSize = `1.5rem`;
-equalBtn.style.fontSize = `1.8rem`;
 
 // AC key
 clearBtn.addEventListener(`click`, clearData);
