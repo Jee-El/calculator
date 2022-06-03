@@ -22,9 +22,8 @@ deleteBtn.addEventListener(`click`, () => {
 	);
 });
 
-// Show user input
-numpad.forEach((num) => num.addEventListener(`click`, getInput));
-function getInput(e) {
+// Get & show user input
+numpad.forEach((num) => num.addEventListener(`click`, (e) => {
 	if (display.classList.contains(`result-is-displayed`)) {
 		display.textContent = ``;
 		display.classList.remove(`result-is-displayed`);
@@ -33,11 +32,29 @@ function getInput(e) {
 		return;
 	}
 	display.textContent += e.target.textContent;
-}
+}));
+
+let keyCodes = [49,50,51,52,53,54,55,56,57,48,190]; 
+document.addEventListener(`keydown`, (e) => {
+	for (let i = 0; i < keyCodes.length; i++){
+		if (e.keyCode !== keyCodes[i]) {
+			if (i === 10) return;
+			continue;
+		}
+		break;
+	}
+	if (display.classList.contains(`result-is-displayed`)) {
+		display.textContent = ``;
+		display.classList.remove(`result-is-displayed`);
+	}
+	if (display.textContent.includes(`.`) && e.keyCode === 190) {
+		return;
+	}
+	display.textContent += e.key;
+})
 
 let para = [];
 let op = [];
-
 // Calculate user input
 operators.forEach((operator) => {
 	operator.addEventListener(`click`, (e) => {
