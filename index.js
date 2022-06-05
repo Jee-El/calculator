@@ -89,7 +89,13 @@ operators.forEach((operator) => {
 			currentOperation.textContent = calculations.reverse().join(``);
 
 			let result = getSquareRoot(para[0]);
-			display.textContent = Math.round(result * 10 ** 7) / 10 ** 7;
+			// Result can be a string in case of an error
+			// so Math.round wouldn't work
+			if (typeof result === `number`) {
+				display.textContent = Math.round(result * 10 ** 7) / 10 ** 7;
+			} else {
+				display.textContent = result;
+			}
 
 			display.classList.add(`result-is-displayed`);
 			// Save the result for next operation, clear the rest
@@ -106,7 +112,8 @@ operators.forEach((operator) => {
 		if (op[0] === `=`) op.shift();
 		let result = operate(para[0], para[1], op[0]);
 
-		// Result can be a string in case of an error, so Math.round wouldn't work
+		// Result can be a string in case of an error
+		// so Math.round wouldn't work
 		if (typeof result === `number`) {
 			display.textContent = Math.round(result * 10 ** 7) / 10 ** 7;
 		} else {
