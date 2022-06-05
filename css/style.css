@@ -51,6 +51,7 @@ body {
 	overflow-x: hidden;
 	padding: 1.5rem;
 	width: 100vw;
+	position: relative;
 }
 .top > div {
 	display: flex;
@@ -58,6 +59,20 @@ body {
 	justify-content: center;
 	align-items: flex-end;
 }
+
+.current-operation {
+	color: #fff;
+	font-size: 1rem;
+	font-weight: 400;
+	right: 1.5rem;
+	top: 1.5rem;
+	position: absolute;
+}
+
+.display {
+	font-weight: 500;
+}
+
 .delete {
 	background-image: url(../delete.svg);
 	background-repeat: no-repeat;
