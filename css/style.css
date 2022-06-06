@@ -60,10 +60,10 @@ body {
 	align-items: flex-end;
 }
 
-.current-operation {
+.last-operation {
 	color: #fff;
-	font-size: 1rem;
-	font-weight: 400;
+	font-size: 1.1rem;
+	font-weight: 500;
 	right: 1.5rem;
 	top: 1.5rem;
 	position: absolute;
