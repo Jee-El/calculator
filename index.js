@@ -130,7 +130,7 @@ function checkForValidInput(a, b) {
 		a.toString().split('').length > 12 ||
 		b.toString().split('').length > 12
 	) {
-		return `Enter 12 digits or less.`;
+		return `Integers only`;
 	}
 	if (a === 0 && b === 0) {
 		return `One integer has to be non-null`;
@@ -163,6 +163,6 @@ function operate(a, b, operator) {
 		case `√`:
 			return getSquareRoot(a);
 		case `GCD`:
-			return findGCD(a, b);
+			return checkForValidInput(a, b);
 	}
 }
