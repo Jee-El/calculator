@@ -11,6 +11,7 @@ let secondOperand = ``;
 let operator = ``;
 let result = 0;
 let isSquareRoot = false;
+let isGCD = false;
 let hasToResetDisplay = false;
 
 // AC Button
@@ -64,7 +65,12 @@ function getInput(e) {
 		isSquareRoot = false;
 		return;
 	}
-	lastOperation.textContent = `${firstOperand} ${operator}`;
+	if (operator === `GCD`) {
+		isGCD = true;
+		lastOperation.textContent = `GCD( ${firstOperand} , )`;
+	} else {
+		lastOperation.textContent = `${firstOperand} ${operator}`;
+	}
 	hasToResetDisplay = true;
 }
 
@@ -74,7 +80,12 @@ function evaluate() {
 		result = operate(firstOperand, secondOperand, operator);
 	} else {
 		secondOperand = +display.textContent;
-		lastOperation.textContent = `${firstOperand} ${operator} ${secondOperand} =`;
+		if (isGCD) {
+			lastOperation.textContent = `GCD ( ${firstOperand} , ${secondOperand} )`;
+			isGCD = false;
+		} else {
+			lastOperation.textContent = `${firstOperand} ${operator} ${secondOperand} =`;
+		}
 		result = operate(firstOperand, secondOperand, operator);
 	}
 	if (typeof result === `number`) {
