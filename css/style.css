@@ -49,7 +49,7 @@ body {
 	justify-content: flex-end;
 	font-size: 1.7rem;
 	overflow-x: hidden;
-	padding: 1.5rem;
+	padding: 1.5rem 3rem;
 	width: 100vw;
 	position: relative;
 }
@@ -70,6 +70,7 @@ body {
 }
 
 .display {
+	font-size: 3rem;
 	font-weight: 500;
 }
 
@@ -78,8 +79,9 @@ body {
 	background-repeat: no-repeat;
 	height: 24px;
 	width: 24px;
-	margin-left: 0.75rem;
-	margin-bottom: 4px;
+	transform: scale(1.5);
+	margin-left: 1.2rem;
+	margin-bottom: 16px;
 }
 
 .keys {
@@ -101,10 +103,12 @@ body {
 	text-align: center;
 	width: calc(25vw - 1px);
 }
+
 .keys > button:nth-child(8),
 .keys > button:nth-child(16) {
 	font-size: 6vw;
 }
+.keys > button:nth-child(4),
 .keys > button:last-child {
 	font-size: 7vw;
 }
@@ -129,29 +133,38 @@ body {
 	.sub-container {
 		border: 2px solid rgba(84, 123, 214, 0.7);
 		justify-content: center;
-		height: unset;
-		width: unset;
+		height: fit-content;
+		width: fit-content;
 	}
 
 	.top {
-		height: 120px;
-		max-width: 320px;
+		height: 130px;
+		width: 370px;
+		padding: 1.5rem;
 		width: 100%;
 	}
-
+	.display {
+		font-size: unset;
+	}
+	.delete {
+		transform: scale(1);
+		margin-left: 0.75rem;
+		margin-bottom: 4px;
+	}
 	.keys {
-		max-height: 560px;
-		max-width: 320px;
+		height: 462px;
+		width: 370px;
 	}
 	.keys > button {
 		font-size: 1.3rem;
-		height: 80px;
-		width: 80px;
+		height: 92px;
+		width: 92px;
 	}
 	.keys > button:nth-child(8),
 	.keys > button:nth-child(16) {
 		font-size: 1.5rem;
 	}
+	.keys > button:nth-child(4),
 	.keys > button:last-child {
 		font-size: 1.8rem;
 	}
