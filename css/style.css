@@ -29,15 +29,13 @@ body {
 	display: flex;
 	flex-flow: column wrap;
 	height: 100vh;
-	justify-content: center;
+	justify-content: flex-end;
 	width: 100vw;
 }
 .sub-container {
 	align-items: center;
 	display: flex;
 	flex-flow: column nowrap;
-	justify-content: flex-end;
-	height: 100vh;
 	width: 100vw;
 }
 
@@ -46,10 +44,11 @@ body {
 	color: #fff;
 	display: flex;
 	flex: 0 1 auto;
+	height: 130px;
 	justify-content: flex-end;
 	font-size: 1.7rem;
 	overflow-x: hidden;
-	padding: 1.5rem 3rem;
+	padding: 1.5rem;
 	width: 100vw;
 	position: relative;
 }
@@ -65,12 +64,12 @@ body {
 	font-size: 1.1rem;
 	font-weight: 500;
 	right: 1.5rem;
-	top: 1.5rem;
+	top: 20px;
 	position: absolute;
 }
 
 .display {
-	font-size: 3rem;
+	font-size: 2rem;
 	font-weight: 500;
 }
 
@@ -79,9 +78,9 @@ body {
 	background-repeat: no-repeat;
 	height: 24px;
 	width: 24px;
-	transform: scale(1.5);
-	margin-left: 1.2rem;
-	margin-bottom: 16px;
+	transform: scale(1.1);
+	margin-left: 1rem;
+	margin-bottom: 6px;
 }
 
 .keys {
@@ -129,27 +128,24 @@ body {
 	font-weight: 600;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 540px), (min-height: 1000px) {
+	.main-container {
+		justify-content: center;
+	}
 	.sub-container {
 		border: 2px solid rgba(84, 123, 214, 0.7);
 		justify-content: center;
-		height: fit-content;
 		width: fit-content;
 	}
-
 	.top {
-		height: 130px;
 		width: 370px;
 		padding: 1.5rem;
-		width: 100%;
 	}
 	.display {
 		font-size: unset;
 	}
 	.delete {
 		transform: scale(1);
-		margin-left: 0.75rem;
-		margin-bottom: 4px;
 	}
 	.keys {
 		height: 462px;
