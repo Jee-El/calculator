@@ -1,176 +1,88 @@
 const display = document.querySelector(`.display`);
 const numpad = document.querySelectorAll(`.numpad`);
-const operators = document.querySelectorAll('.operators:not(:first-child)');
-const clearBtn = document.querySelector(`.operators:first-child`);
 const backspaceBtn = document.querySelector(`.delete`);
-const currentOperation = document.querySelector(`.current-operation`);
+const lastOperation = document.querySelector(`.last-operation`);
+const operatorsBtns = [...document.querySelectorAll('.operators')];
+const clearBtn = operatorsBtns.shift(); // Remove AC button & store it
+const equalBtn = operatorsBtns.pop(); // Remove equal button & store it
 
-let para = [];
-let op = [];
-let calculations = [];
+let firstOperand = ``;
+let secondOperand = ``;
+let operator = ``;
+let result = 0;
+let isSquareRoot = false;
+let hasToResetDisplay = false;
 
-// AC key
+// AC Button
 clearBtn.addEventListener(`click`, clearData);
-
-// Delete button
-backspaceBtn.addEventListener(`click`, backspace);
-
-// Get & show user input
-numpad.forEach((num) =>
-	num.addEventListener(`click`, (e) => {
-		if (display.classList.contains(`result-is-displayed`)) {
-			clearData();
-			display.textContent = ``;
-			display.classList.remove(`result-is-displayed`);
-		}
-		if (display.classList.contains(`next-operation`)) {
-			display.textContent = ``;
-			display.classList.remove(`next-operation`);
-		}
-		// Prevent multiple decimal points
-		if (display.textContent.includes(`.`) && e.target.textContent === `.`) {
-			return;
-		}
-		display.textContent += e.target.textContent;
-	})
-);
-
-let keyCodes = [49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 190];
-document.addEventListener(`keydown`, (e) => {
-	// Check if the key pressed is supported
-	for (let i = 0; i < keyCodes.length; i++) {
-		if (e.keyCode !== keyCodes[i]) {
-			if (i === 10) return;
-			continue;
-		}
-		break;
-	}
-
-	if (display.classList.contains(`result-is-displayed`)) {
-		display.textContent = ``;
-		display.classList.remove(`result-is-displayed`);
-	}
-
-	// Prevent multiple decimal points
-	if (display.textContent.includes(`.`) && e.keyCode === 190) {
-		return;
-	}
-	display.textContent += e.key;
-});
-
-// Calculate user input
-operators.forEach((operator) => {
-	operator.addEventListener(`click`, (e) => {
-		if (display.textContent.trim() === ``) {
-			if (op.length || op[0] !== `=`) {
-				// To change the operator to the latest clicked one
-				// if two or more are pressed one after another
-				op = [];
-				calculations.pop();
-				op.push(e.target.textContent);
-				calculations.push(e.target.textContent);
-				currentOperation.textContent = calculations.join(` `);
-				return;
-			}
-			// Otherwise if input is empty and no operator was clicked, leave
-			return;
-		}
-		if (
-			display.classList.contains(`result-is-displayed`) ||
-			display.classList.contains(`next-operation`)
-		) {
-			if (display.textContent === `0`) return;
-			display.textContent = ``;
-			display.classList.remove(`result-is-displayed`);
-		} else {
-			para.push(+display.textContent);
-			calculations.push(+display.textContent);
-		}
-		op.push(e.target.textContent);
-		calculations.push(e.target.textContent);
-		currentOperation.textContent = calculations.join(` `);
-		display.textContent = ``;
-		// The square root doesn't require two parameters
-		if (e.currentTarget.textContent === `√`) {
-			// To display √8 instead of 8√
-			for (let i = 0; i < calculations.length; i++) {
-				if (calculations[i] === `√`) {
-					let x = calculations[i - 1];
-					calculations[i - 1] = `√`;
-					calculations[i] = x;
-				}
-			}
-			currentOperation.textContent = calculations.join(` `);
-
-			let result = getSquareRoot(para[0]);
-			// Result can be a string in case of an error
-			// so Math.round wouldn't work
-			if (typeof result === `number`) {
-				display.textContent = Math.round(result * 10 ** 7) / 10 ** 7;
-			} else {
-				display.textContent = result;
-			}
-
-			display.classList.add(`next-operation`);
-			// Save the result for next operation, clear the rest
-			para.splice(0, 2, result);
-			calculations = [];
-			calculations.push(display.textContent);
-			// Update the operator used in operate()
-			op.shift();
-			return;
-		}
-
-		// Need 2 parameters otherwise
-		if (para.length === 1) {
-			if (e.target.textContent === `=`) {
-				clearData();
-			}
-			return;
-		}
-		if (op[0] === `=`) op.shift();
-		let result = operate(para[0], para[1], op[0]);
-
-		// Result can be a string in case of an error
-		// so Math.round wouldn't work
-		if (typeof result === `number`) {
-			display.textContent = Math.round(result * 10 ** 7) / 10 ** 7;
-		} else {
-			display.textContent = result;
-		}
-		display.classList.add(`next-operation`);
-
-		// Save the result for next operation, clear the rest
-		para.splice(0, 2, result);
-		calculations = [];
-		calculations.push(display.textContent);
-		// Update the operator used in operate()
-		op.shift();
-		if (e.target.textContent === `=`) {
-			display.classList.add(`result-is-displayed`);
-		} else {
-			calculations.push(e.target.textContent);
-		}
-		currentOperation.textContent = calculations.join(` `);
-	});
-});
-
-function backspace() {
-	// Prevent the backspace button from removing the default display value
-	if (display.textContent.length === 1) return (display.textContent = `0`);
-
-	display.textContent = display.textContent.slice(
-		0,
-		display.textContent.length - 1
-	);
+function clearData() {
+	display.textContent = `0`
+	lastOperation.textContent = ``
+	firstOperand = ``;
+	secondOperand = ``;
+	currentOperator = ``;
+	isSquareRoot = false;
+	hasToResetDisplay = false;
 }
 
-function clearData(e) {
-	display.textContent = `0`;
-	currentOperation.textContent = ``;
-	para = [];
-	op = [];
-	calculations = [];
+// Numbers keys
+numpad.forEach((number) => number.addEventListener(`click`, displayInput));
+function displayInput(e) {
+	if (display.textContent === `0` || hasToResetDisplay) {
+		display.textContent = ``;
+		hasToResetDisplay = false;
+	}
+	if (allowDotOnce(e)) return;
+	display.textContent += e.target.textContent;
+}
+function allowDotOnce(e) {
+	if (display.textContent.includes(`.`) && e.target.textContent === `.`) return true;
+}
+
+// Backspace Button/icon
+backspaceBtn.addEventListener(`click`, goBackOneStep);
+function goBackOneStep() {
+	if (display.textContent.length === 1) return display.textContent = `0`;
+	display.textContent = display.textContent.slice(0, -1);
+}
+
+// Operators Buttons
+operatorsBtns.forEach((operatorBtn) => operatorBtn.addEventListener(`click`, getInput));
+
+// Equal Button
+equalBtn.addEventListener(`click`, evaluate);
+
+function getInput(e) {
+	if (operator) evaluate();
+	firstOperand = +display.textContent;
+	operator = e.target.textContent;
+	if (operator === `√`) {
+		hasToResetDisplay = false;
+		isSquareRoot = true;
+		lastOperation.textContent = `${operator}${firstOperand} =`;
+		evaluate();
+		isSquareRoot = false;
+		return;
+	}
+	lastOperation.textContent = `${firstOperand} ${operator}`;
+	hasToResetDisplay = true;
+}
+
+function evaluate() {
+	if (!operator || hasToResetDisplay) return;
+	if (isSquareRoot) {		
+		result = operate(firstOperand, secondOperand, operator);
+	} else {
+		secondOperand = +display.textContent;
+		lastOperation.textContent = `${firstOperand} ${operator} ${secondOperand} =`;
+		result = operate(firstOperand, secondOperand, operator);
+	}
+	if (typeof result === `number`) {
+		display.textContent = Math.round(result * (10**7)) / 10**7;
+	} else {
+		display.textContent = result;
+	}
+	operator = ``;
 }
 
 function add(a, b) {
