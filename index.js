@@ -23,6 +23,10 @@ numpad.forEach((num) =>
 			display.textContent = ``;
 			display.classList.remove(`result-is-displayed`);
 		}
+		if (display.classList.contains(`next-operation`)) {
+			display.textContent = ``;
+			display.classList.remove(`next-operation`);
+		}
 		// Prevent multiple decimal points
 		if (display.textContent.includes(`.`) && e.target.textContent === `.`) {
 			return;
@@ -58,10 +62,10 @@ document.addEventListener(`keydown`, (e) => {
 operators.forEach((operator) => {
 	operator.addEventListener(`click`, (e) => {
 		if (display.textContent.trim() === ``) {
-			if (op.length) {
+			if (op.length || op[0] !== `=`) {
 				// To change the operator to the latest clicked one
 				// if two or more are pressed one after another
-				op.shift();
+				op = [];
 				calculations.pop();
 				op.push(e.target.textContent);
 				calculations.push(e.target.textContent);
@@ -71,7 +75,10 @@ operators.forEach((operator) => {
 			// Otherwise if input is empty and no operator was clicked, leave
 			return;
 		}
-		if (display.classList.contains(`result-is-displayed`)) {
+		if (
+			display.classList.contains(`result-is-displayed`) ||
+			display.classList.contains(`next-operation`)
+		) {
 			if (display.textContent === `0`) return;
 			display.textContent = ``;
 			display.classList.remove(`result-is-displayed`);
@@ -86,7 +93,14 @@ operators.forEach((operator) => {
 		// The square root doesn't require two parameters
 		if (e.currentTarget.textContent === `√`) {
 			// To display √8 instead of 8√
-			currentOperation.textContent = calculations.reverse().join(``);
+			for (let i = 0; i < calculations.length; i++) {
+				if (calculations[i] === `√`) {
+					let x = calculations[i - 1];
+					calculations[i - 1] = `√`;
+					calculations[i] = x;
+				}
+			}
+			currentOperation.textContent = calculations.join(` `);
 
 			let result = getSquareRoot(para[0]);
 			// Result can be a string in case of an error
@@ -97,7 +111,7 @@ operators.forEach((operator) => {
 				display.textContent = result;
 			}
 
-			display.classList.add(`result-is-displayed`);
+			display.classList.add(`next-operation`);
 			// Save the result for next operation, clear the rest
 			para.splice(0, 2, result);
 			calculations = [];
@@ -108,7 +122,12 @@ operators.forEach((operator) => {
 		}
 
 		// Need 2 parameters otherwise
-		if (para.length === 1) return;
+		if (para.length === 1) {
+			if (e.target.textContent === `=`) {
+				clearData();
+			}
+			return;
+		}
 		if (op[0] === `=`) op.shift();
 		let result = operate(para[0], para[1], op[0]);
 
@@ -119,7 +138,7 @@ operators.forEach((operator) => {
 		} else {
 			display.textContent = result;
 		}
-		display.classList.add(`result-is-displayed`);
+		display.classList.add(`next-operation`);
 
 		// Save the result for next operation, clear the rest
 		para.splice(0, 2, result);
@@ -127,13 +146,19 @@ operators.forEach((operator) => {
 		calculations.push(display.textContent);
 		// Update the operator used in operate()
 		op.shift();
+		if (e.target.textContent === `=`) {
+			display.classList.add(`result-is-displayed`);
+		} else {
+			calculations.push(e.target.textContent);
+		}
+		currentOperation.textContent = calculations.join(` `);
 	});
 });
 
 function backspace() {
 	// Prevent the backspace button from removing the default display value
 	if (display.textContent.length === 1) return (display.textContent = `0`);
-	
+
 	display.textContent = display.textContent.slice(
 		0,
 		display.textContent.length - 1
