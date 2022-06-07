@@ -21,7 +21,7 @@ function clearData() {
 	lastOperation.textContent = ``
 	firstOperand = ``;
 	secondOperand = ``;
-	currentOperator = ``;
+	operator = ``;
 	isSquareRoot = false;
 	hasToResetDisplay = false;
 }
@@ -33,10 +33,10 @@ function displayInput(e) {
 		display.textContent = ``;
 		hasToResetDisplay = false;
 	}
-	if (allowDotOnce(e)) return;
+	if (allowOneDot(e)) return;
 	display.textContent += e.target.textContent;
 }
-function allowDotOnce(e) {
+function allowOneDot(e) {
 	if (display.textContent.includes(`.`) && e.target.textContent === `.`) return true;
 }
 
