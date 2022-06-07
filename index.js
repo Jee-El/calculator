@@ -17,8 +17,8 @@ let hasToResetDisplay = false;
 // AC Button
 clearBtn.addEventListener(`click`, clearData);
 function clearData() {
-	display.textContent = `0`
-	lastOperation.textContent = ``
+	display.textContent = `0`;
+	lastOperation.textContent = ``;
 	firstOperand = ``;
 	secondOperand = ``;
 	operator = ``;
@@ -27,36 +27,40 @@ function clearData() {
 }
 
 // Numbers keys
-numpad.forEach((number) => number.addEventListener(`click`, displayInput));
-function displayInput(e) {
+numpad.forEach((number) =>
+	number.addEventListener(`click`, (e) => displayInput(e.target.textContent))
+);
+function displayInput(input) {
 	if (display.textContent === `0` || hasToResetDisplay) {
 		display.textContent = ``;
 		hasToResetDisplay = false;
 	}
-	if (allowOneDot(e)) return;
-	display.textContent += e.target.textContent;
+	if (allowOneDot(input)) return;
+	display.textContent += input;
 }
-function allowOneDot(e) {
-	if (display.textContent.includes(`.`) && e.target.textContent === `.`) return true;
+function allowOneDot(input) {
+	if (display.textContent.includes(`.`) && input === `.`) return true;
 }
 
 // Backspace Button/icon
 backspaceBtn.addEventListener(`click`, goBackOneStep);
 function goBackOneStep() {
-	if (display.textContent.length === 1) return display.textContent = `0`;
+	if (display.textContent.length === 1) return (display.textContent = `0`);
 	display.textContent = display.textContent.slice(0, -1);
 }
 
 // Operators Buttons
-operatorsBtns.forEach((operatorBtn) => operatorBtn.addEventListener(`click`, getInput));
+operatorsBtns.forEach((operatorBtn) =>
+	operatorBtn.addEventListener(`click`, (e) => saveInput(e.target.textContent))
+);
 
 // Equal Button
 equalBtn.addEventListener(`click`, evaluate);
 
-function getInput(e) {
+function saveInput(input) {
 	if (operator) evaluate();
 	firstOperand = +display.textContent;
-	operator = e.target.textContent;
+	operator = input;
 	if (operator === `√`) {
 		hasToResetDisplay = false;
 		isSquareRoot = true;
@@ -76,7 +80,7 @@ function getInput(e) {
 
 function evaluate() {
 	if (!operator || hasToResetDisplay) return;
-	if (isSquareRoot) {		
+	if (isSquareRoot) {
 		result = operate(firstOperand, secondOperand, operator);
 	} else {
 		secondOperand = +display.textContent;
@@ -89,11 +93,50 @@ function evaluate() {
 		result = operate(firstOperand, secondOperand, operator);
 	}
 	if (typeof result === `number`) {
-		display.textContent = Math.round(result * (10**7)) / 10**7;
+		display.textContent = Math.round(result * 10 ** 7) / 10 ** 7;
 	} else {
 		display.textContent = result;
 	}
 	operator = ``;
+}
+
+window.addEventListener(`keydown`, interpretKeyboardNumpad);
+window.addEventListener(`keydown`, saveKeyboardInput);
+// Get result if enter or equal sign is clicked
+window.addEventListener(`keydown`, (e) => (e.keyCode === 13 || e.keyCode === 187) && evaluate());
+window.addEventListener(`keydown`, (e) => (e.keyCode === 8) && goBackOneStep());
+let keyCodesToInput = {
+	48: 0,
+	49: 1,
+	50: 2,
+	51: 3,
+	52: 4,
+	53: 5,
+	54: 6,
+	55: 7,
+	56: 8,
+	57: 9,
+	190: `.`,
+};
+function interpretKeyboardNumpad(e) {
+	if (e.keyCode in keyCodesToInput) {
+		displayInput(keyCodesToInput[e.keyCode]);
+	}
+}
+function saveKeyboardInput(e) {
+	if (interpretKeyboardOperators(e)) {
+		saveInput(interpretKeyboardOperators(e));
+	}
+}
+// % / * — + in this order
+// some require shiftKey to be held
+let operatorsKeys = [53, 191, 56, 189, 187];
+function interpretKeyboardOperators(e) {
+	if (e.keyCode === 53 && e.shiftKey) return `%`;
+	if (e.keyCode === 191) return `÷`;
+	if (e.keyCode === 56 && e.shiftKey) return `x`;
+	if (e.keyCode === 189) return `—`;
+	if (e.keyCode === 187 && e.shiftKey) return `+`;
 }
 
 function add(a, b) {
