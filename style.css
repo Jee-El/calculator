@@ -74,13 +74,13 @@ body {
 }
 
 .delete {
-	background-image: url(../delete.svg);
+	background-image: url(./delete.svg);
 	background-repeat: no-repeat;
 	height: 24px;
 	width: 24px;
 	transform: scale(1.1);
 	margin-left: 1rem;
-	margin-bottom: 6px;
+	margin-bottom: 5px;
 }
 
 .keys {
@@ -94,13 +94,13 @@ body {
 	align-items: center;
 	background-color: #000100;
 	display: flex;
-	font-size: 5vw;
+	font-size: 1.6rem;
 	font-weight: 400;
 	height: 25vw;
 	justify-content: center;
 	outline: 1px solid rgba(84, 123, 214, 0.35);
 	text-align: center;
-	width: calc(25vw - 1px);
+	width: 25vw;
 }
 
 .keys > button:nth-child(8),
