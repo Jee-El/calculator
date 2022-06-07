@@ -28,7 +28,7 @@ body {
 	background-color: #000100;
 	display: flex;
 	flex-flow: column wrap;
-	height: 100vh;
+	min-height: 100vh;
 	justify-content: flex-end;
 	width: 100vw;
 }
