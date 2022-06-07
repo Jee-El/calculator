@@ -135,6 +135,7 @@ function checkForValidInput(a, b) {
 	if (a === 0 && b === 0) {
 		return `One integer has to be non-null`;
 	}
+	return findGCD(a, b);
 }
 function findGCD(a, b) {
 	a = Math.abs(a);
