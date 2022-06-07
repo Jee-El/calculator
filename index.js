@@ -22,7 +22,9 @@ function clearData() {
 	firstOperand = ``;
 	secondOperand = ``;
 	operator = ``;
+	result = 0;
 	isSquareRoot = false;
+	isGCD = false;
 	hasToResetDisplay = false;
 }
 
