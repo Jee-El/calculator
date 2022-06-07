@@ -188,7 +188,10 @@ footer {
 		width: 100%;
 		margin-top: 2rem;
 	}
-
+	a {
+		color: #46DBB4;
+		text-decoration: none;
+	}
 	.icon-heart {
 		display: inline;
 		color: #F34E5F;
