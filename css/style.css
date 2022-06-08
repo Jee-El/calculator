@@ -18,7 +18,7 @@ button {
 html,
 body {
 	background-color: #000100;
-	font-family: Roboto, Arial, Helvetica, sans-serif;
+	font-family: 'Roboto', Arial, Helvetica, sans-serif;
 	width: 100%;
 }
 
@@ -91,8 +91,9 @@ body {
 .keys > button {
 	align-items: center;
 	background-color: #000100;
+	cursor: pointer;
 	display: flex;
-	font-size: 1.6rem;
+	font-size: 1.3rem;
 	font-weight: 400;
 	height: 25vw;
 	justify-content: center;
@@ -103,27 +104,22 @@ body {
 
 .keys > button:nth-child(8),
 .keys > button:nth-child(16) {
-	font-size: 6vw;
+	font-size: 1.5rem;
 }
 .keys > button:nth-child(4),
 .keys > button:last-child {
-	font-size: 7vw;
+	font-size: 1.8rem;
 }
 
-.keys > button > i {
-	font-weight: 300;
-}
 .numpad {
 	color: #f34e5f;
 }
 .operators {
 	color: #46dbb4;
 }
-.operators.division {
-	font-size: 1.7rem;
-}
+
 .operators.sqrt {
-	font-weight: 600;
+	font-weight: 700;
 }
 
 footer {
