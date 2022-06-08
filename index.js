@@ -109,6 +109,7 @@ function evaluate() {
 		display.textContent = result;
 	}
 	operator = ``;
+	hasToResetDisplay = true;
 }
 
 window.addEventListener(`keydown`, interpretKeyboardNumpad);
