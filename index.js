@@ -12,6 +12,7 @@ let operator = ``;
 let result = 0;
 let isSquareRoot = false;
 let isGCD = false;
+let resultIsAnError = false;
 let hasToResetDisplay = false;
 
 // AC Button
@@ -25,6 +26,7 @@ function clearData() {
 	result = 0;
 	isSquareRoot = false;
 	isGCD = false;
+	resultIsAnError = false;
 	hasToResetDisplay = false;
 }
 
@@ -36,6 +38,11 @@ function displayInput(input) {
 	if (display.textContent === `0` || hasToResetDisplay) {
 		display.textContent = ``;
 		hasToResetDisplay = false;
+	}
+	if (resultIsAnError) {
+		display.textContent = ``;
+		lastOperation.textContent = ``;
+		resultIsAnError = false;
 	}
 	if (allowOneDot(input)) return;
 	display.textContent += input;
@@ -61,6 +68,7 @@ equalBtn.addEventListener(`click`, evaluate);
 
 function saveInput(input) {
 	if (operator) evaluate();
+	if (resultIsAnError) return;
 	firstOperand = +display.textContent;
 	operator = input;
 	if (operator === `√`) {
@@ -97,6 +105,7 @@ function evaluate() {
 	if (typeof result === `number`) {
 		display.textContent = Math.round(result * 10 ** 7) / 10 ** 7;
 	} else {
+		resultIsAnError = true;
 		display.textContent = result;
 	}
 	operator = ``;
