@@ -17,11 +17,9 @@ button {
 
 html,
 body {
-	align-items: center;
 	background-color: #000100;
-	display: flex;
 	font-family: Roboto, Arial, Helvetica, sans-serif;
-	justify-content: center;
+	width: 100%;
 }
 
 .main-container {
@@ -31,13 +29,12 @@ body {
 	min-height: 100vh;
 	justify-content: flex-end;
 	position: relative;
-	width: 100vw;
+	width: 100%;
 }
 .sub-container {
 	align-items: center;
 	display: flex;
 	flex-flow: column nowrap;
-	width: 100vw;
 }
 
 .top {
