@@ -139,14 +139,14 @@ function saveKeyboardInput(e) {
 		saveInput(interpretKeyboardOperators(e));
 	}
 }
-// % / * — + in this order
+// % / * − + in this order
 // some require shiftKey to be held
 let operatorsKeys = [53, 191, 56, 189, 187];
 function interpretKeyboardOperators(e) {
 	if (e.keyCode === 53 && e.shiftKey) return `%`;
 	if (e.keyCode === 191) return `÷`;
 	if (e.keyCode === 56 && e.shiftKey) return `x`;
-	if (e.keyCode === 189) return `—`;
+	if (e.keyCode === 189) return `−`;
 	if (e.keyCode === 187 && e.shiftKey) return `+`;
 }
 
@@ -206,7 +206,7 @@ function operate(a, b, operator) {
 	switch (operator) {
 		case `+`:
 			return add(a, b);
-		case `—`:
+		case `−`:
 			return subtract(a, b);
 		case `x`:
 			return multiply(a, b);
