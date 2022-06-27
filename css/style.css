@@ -26,9 +26,9 @@ body {
 	align-items: center;
 	display: flex;
 	flex-flow: column wrap;
-	min-height: 100vh;
 	justify-content: flex-end;
 	position: relative;
+	min-height: 100vh;
 	width: 100%;
 }
 .sub-container {
@@ -51,19 +51,19 @@ body {
 	position: relative;
 }
 .top > div {
+	align-items: flex-end;
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: center;
-	align-items: flex-end;
 }
 
 .last-operation {
 	color: #fff;
 	font-size: 1.1rem;
 	font-weight: 500;
+	position: absolute;
 	right: 1.5rem;
 	top: 20px;
-	position: absolute;
 }
 
 .display {
@@ -75,10 +75,10 @@ body {
 	background-image: url(../delete.svg);
 	background-repeat: no-repeat;
 	height: 24px;
-	width: 24px;
-	transform: scale(1.1);
-	margin-left: 1rem;
 	margin-bottom: 5px;
+	margin-left: 1rem;
+	transform: scale(1.1);
+	width: 24px;
 }
 
 .keys {
@@ -103,7 +103,8 @@ body {
 }
 
 .keys > button:nth-child(8),
-.keys > button:nth-child(16) {
+.keys > button:nth-child(16),
+.keys > button:nth-child(17) {
 	font-size: 1.5rem;
 }
 .keys > button:nth-child(4),
@@ -139,8 +140,8 @@ footer {
 		width: fit-content;
 	}
 	.top {
-		width: 370px;
 		padding: 1.5rem;
+		width: 370px;
 	}
 	.display {
 		font-size: unset;
@@ -153,41 +154,32 @@ footer {
 		width: 370px;
 	}
 	.keys > button {
-		font-size: 1.3rem;
 		height: 92px;
 		width: 92px;
-	}
-	.keys > button:nth-child(8),
-	.keys > button:nth-child(16) {
-		font-size: 1.5rem;
-	}
-	.keys > button:nth-child(4),
-	.keys > button:last-child {
-		font-size: 1.8rem;
 	}
 	footer {
 		align-items: center;
 		bottom: -96px;
-		box-shadow: 0px -0.5px 3px #547BD6;
-		color: #46DBB4;
+		box-shadow: 0px -0.5px 3px #547bd6;
+		color: #46dbb4;
 		display: flex;
 		font-size: 0.7rem;
 		font-weight: 500;
 		height: 48px;
-		letter-spacing: 0.1rem;
 		justify-content: center;
-		text-transform: capitalize;
-		position: absolute;
-		width: 100%;
+		letter-spacing: 0.1rem;
 		margin-top: 2rem;
+		position: absolute;
+		text-transform: capitalize;
+		width: 100%;
 	}
 	a {
-		color: #46DBB4;
+		color: #46dbb4;
 		text-decoration: none;
 	}
 	.icon-heart {
 		display: inline;
-		color: #F34E5F;
+		color: #f34e5f;
 		font-size: 0.7rem;
 		margin: 0 0.1rem;
 	}
