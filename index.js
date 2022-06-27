@@ -11,6 +11,8 @@ let secondOperand = ``;
 let operator = ``;
 let result = 0;
 let isSquareRoot = false;
+let hasMinusSign = false;
+let hasOnlyMinusSign = false;
 let resultIsAnError = false;
 let hasToResetDisplay = false;
 
@@ -36,6 +38,7 @@ numpad.forEach((number) =>
 function displayInput(input) {
 	if (display.textContent === `0` || hasToResetDisplay) {
 		display.textContent = ``;
+		hasMinusSign = false;
 		hasToResetDisplay = false;
 	}
 	if (resultIsAnError) {
@@ -50,8 +53,10 @@ function displayInput(input) {
 
 function handleSignBtn() {
 	if (display.textContent.includes('-')) {
+		hasMinusSign = false;
 		return display.textContent.replace(`-`, ``);
 	}
+	hasMinusSign = true;
 	return `-` + display.textContent;
 }
 
@@ -78,7 +83,12 @@ equalBtn.addEventListener(`click`, evaluate);
 function saveInput(input) {
 	if (operator) evaluate();
 	if (resultIsAnError) return;
-	firstOperand = +display.textContent;
+	// +"-" returns NaN
+	if (hasMinusSign && display.textContent.length === 1) {
+		firstOperand = -1;
+	} else {
+		firstOperand = +display.textContent;
+	}
 	operator = input;
 	if (operator === `√`) {
 		hasToResetDisplay = false;
@@ -97,7 +107,12 @@ function evaluate() {
 	if (isSquareRoot) {
 		result = operate(firstOperand, secondOperand, operator);
 	} else {
-		secondOperand = +display.textContent;
+		// +"-" => NaN
+		if (hasMinusSign && display.textContent.length === 1) {
+			secondOperand = -1;
+		} else {
+			secondOperand = +display.textContent;
+		}
 		lastOperation.textContent = `${firstOperand} ${operator} ${secondOperand} =`;
 		result = operate(firstOperand, secondOperand, operator);
 	}
