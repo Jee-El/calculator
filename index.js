@@ -12,12 +12,12 @@ let operator = ``;
 let result = 0;
 let isSquareRoot = false;
 let hasMinusSign = false;
-let hasOnlyMinusSign = false;
 let resultIsAnError = false;
 let hasToResetDisplay = false;
 
 // AC Button
 clearBtn.addEventListener(`click`, clearData);
+
 function clearData() {
 	display.textContent = `0`;
 	lastOperation.textContent = ``;
@@ -26,14 +26,17 @@ function clearData() {
 	operator = ``;
 	result = 0;
 	isSquareRoot = false;
+	hasMinusSign = false;
 	resultIsAnError = false;
 	hasToResetDisplay = false;
 }
 
 // Numbers keys
-numpad.forEach((number) =>
-	number.addEventListener(`click`, (e) => displayInput(e.target.textContent))
-);
+numpad.forEach((number) => {
+	number.addEventListener(`click`, (e) => {
+		displayInput(e.target.getAttribute(`data-key`));
+	});
+});
 
 function displayInput(input) {
 	if (display.textContent === `0` || hasToResetDisplay) {
@@ -74,7 +77,9 @@ function goBackOneStep() {
 
 // Operators Buttons
 operatorsBtns.forEach((operatorBtn) =>
-	operatorBtn.addEventListener(`click`, (e) => saveInput(e.target.textContent))
+	operatorBtn.addEventListener(`click`, (e) => {
+		saveInput(e.target.getAttribute(`data-key`));
+	})
 );
 
 // Equal Button
