@@ -102,12 +102,13 @@ body {
 	width: 25vw;
 }
 
-.keys > button:nth-child(8),
 .keys > button:nth-child(16),
 .keys > button:nth-child(17) {
-	font-size: 1.5rem;
+	font-size: 1.6rem;
 }
+
 .keys > button:nth-child(4),
+.keys > button:nth-child(12),
 .keys > button:last-child {
 	font-size: 1.8rem;
 }
