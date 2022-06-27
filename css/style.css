@@ -28,7 +28,7 @@ body {
 	flex-flow: column wrap;
 	justify-content: flex-end;
 	position: relative;
-	min-height: 100vh;
+	height: 100vh;
 	width: 100%;
 }
 .sub-container {
@@ -41,7 +41,6 @@ body {
 	align-items: flex-end;
 	color: #fff;
 	display: flex;
-	flex: 0 1 auto;
 	height: 130px;
 	justify-content: flex-end;
 	font-size: 1.7rem;
