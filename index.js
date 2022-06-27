@@ -11,7 +11,6 @@ let secondOperand = ``;
 let operator = ``;
 let result = 0;
 let isSquareRoot = false;
-let isGCD = false;
 let resultIsAnError = false;
 let hasToResetDisplay = false;
 
@@ -25,7 +24,6 @@ function clearData() {
 	operator = ``;
 	result = 0;
 	isSquareRoot = false;
-	isGCD = false;
 	resultIsAnError = false;
 	hasToResetDisplay = false;
 }
@@ -34,6 +32,7 @@ function clearData() {
 numpad.forEach((number) =>
 	number.addEventListener(`click`, (e) => displayInput(e.target.textContent))
 );
+
 function displayInput(input) {
 	if (display.textContent === `0` || hasToResetDisplay) {
 		display.textContent = ``;
@@ -44,15 +43,25 @@ function displayInput(input) {
 		lastOperation.textContent = ``;
 		resultIsAnError = false;
 	}
-	if (allowOneDot(input)) return;
+	if (input === '±') return (display.textContent = handleSignBtn());
+	if (hasDecimalDot(input)) return;
 	display.textContent += input;
 }
-function allowOneDot(input) {
+
+function handleSignBtn() {
+	if (display.textContent.includes('-')) {
+		return display.textContent.replace(`-`, ``);
+	}
+	return `-` + display.textContent;
+}
+
+function hasDecimalDot(input) {
 	if (display.textContent.includes(`.`) && input === `.`) return true;
 }
 
 // Backspace Button/icon
 backspaceBtn.addEventListener(`click`, goBackOneStep);
+
 function goBackOneStep() {
 	if (display.textContent.length === 1) return (display.textContent = `0`);
 	display.textContent = display.textContent.slice(0, -1);
@@ -79,12 +88,7 @@ function saveInput(input) {
 		isSquareRoot = false;
 		return;
 	}
-	if (operator === `GCD`) {
-		isGCD = true;
-		lastOperation.textContent = `GCD( ${firstOperand} , )`;
-	} else {
-		lastOperation.textContent = `${firstOperand} ${operator}`;
-	}
+	lastOperation.textContent = `${firstOperand} ${operator}`;
 	hasToResetDisplay = true;
 }
 
@@ -94,12 +98,7 @@ function evaluate() {
 		result = operate(firstOperand, secondOperand, operator);
 	} else {
 		secondOperand = +display.textContent;
-		if (isGCD) {
-			lastOperation.textContent = `GCD ( ${firstOperand} , ${secondOperand} )`;
-			isGCD = false;
-		} else {
-			lastOperation.textContent = `${firstOperand} ${operator} ${secondOperand} =`;
-		}
+		lastOperation.textContent = `${firstOperand} ${operator} ${secondOperand} =`;
 		result = operate(firstOperand, secondOperand, operator);
 	}
 	if (typeof result === `number`) {
@@ -115,8 +114,11 @@ function evaluate() {
 window.addEventListener(`keydown`, interpretKeyboardNumpad);
 window.addEventListener(`keydown`, saveKeyboardInput);
 // Get result if enter or equal sign is clicked
-window.addEventListener(`keydown`, (e) => (e.keyCode === 13 || e.keyCode === 187) && evaluate());
-window.addEventListener(`keydown`, (e) => (e.keyCode === 8) && goBackOneStep());
+window.addEventListener(
+	`keydown`,
+	(e) => (e.keyCode === 13 || e.keyCode === 187) && evaluate()
+);
+window.addEventListener(`keydown`, (e) => e.keyCode === 8 && goBackOneStep());
 let keyCodesToInput = {
 	48: 0,
 	49: 1,
@@ -130,24 +132,27 @@ let keyCodesToInput = {
 	57: 9,
 	190: `.`,
 };
+
 function interpretKeyboardNumpad(e) {
 	if (e.keyCode in keyCodesToInput) {
 		displayInput(keyCodesToInput[e.keyCode]);
 	}
 }
+
 function saveKeyboardInput(e) {
 	if (interpretKeyboardOperators(e)) {
 		saveInput(interpretKeyboardOperators(e));
 	}
 }
-// % / * − + in this order
+// % / * - + in this order
 // some require shiftKey to be held
 let operatorsKeys = [53, 191, 56, 189, 187];
+
 function interpretKeyboardOperators(e) {
 	if (e.keyCode === 53 && e.shiftKey) return `%`;
 	if (e.keyCode === 191) return `÷`;
 	if (e.keyCode === 56 && e.shiftKey) return `x`;
-	if (e.keyCode === 189) return `−`;
+	if (e.keyCode === 189) return `-`;
 	if (e.keyCode === 187 && e.shiftKey) return `+`;
 }
 
@@ -177,37 +182,11 @@ function getSquareRoot(a) {
 	return Math.sqrt(a);
 }
 
-// This one is only for GCD
-function checkForValidInput(a, b) {
-	if (
-		!Number.isInteger(a) ||
-		!Number.isInteger(b) ||
-		a.toString().split('').length > 12 ||
-		b.toString().split('').length > 12
-	) {
-		return `Integers only`;
-	}
-	if (a === 0 && b === 0) {
-		return `One integer has to be non-null`;
-	}
-	return findGCD(a, b);
-}
-function findGCD(a, b) {
-	a = Math.abs(a);
-	b = Math.abs(b);
-	if (a === 0) return b;
-	if (b === 0) return findGCD(b, a);
-	if (a % b === 0) {
-		return a > b ? b : a;
-	}
-	return findGCD(b, a % b);
-}
-
 function operate(a, b, operator) {
 	switch (operator) {
 		case `+`:
 			return add(a, b);
-		case `−`:
+		case `-`:
 			return subtract(a, b);
 		case `x`:
 			return multiply(a, b);
@@ -218,7 +197,5 @@ function operate(a, b, operator) {
 			return getPercentage(a, b);
 		case `√`:
 			return getSquareRoot(a);
-		case `GCD`:
-			return checkForValidInput(a, b);
 	}
 }
