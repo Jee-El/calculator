@@ -44,27 +44,30 @@ function displayInput(input) {
 		hasMinusSign = false;
 		hasToResetDisplay = false;
 	}
-	if (resultIsAnError) {
-		display.textContent = ``;
-		lastOperation.textContent = ``;
-		resultIsAnError = false;
-	}
-	if (input === '±') return (display.textContent = handleSignBtn());
-	if (hasDecimalDot(input)) return;
+	if (resultIsAnError) handleError();
+	if (input === '±') return handleSignBtn();
+	if (handleDecimalDot(input)) return;
 	display.textContent += input;
+}
+
+function handleError() {
+	display.textContent = ``;
+	lastOperation.textContent = ``;
+	resultIsAnError = false;
 }
 
 function handleSignBtn() {
 	if (display.textContent.includes('-')) {
 		hasMinusSign = false;
-		return display.textContent.replace(`-`, ``);
+		display.textContent = display.textContent.replace(`-`, ``);
 	}
 	hasMinusSign = true;
-	return `-` + display.textContent;
+	display.textContent = `-` + display.textContent;
 }
 
-function hasDecimalDot(input) {
+function handleDecimalDot(input) {
 	if (display.textContent.includes(`.`) && input === `.`) return true;
+	if (input === `.` && display.textContent === '') display.textContent = '0';
 }
 
 // Backspace Button/icon
